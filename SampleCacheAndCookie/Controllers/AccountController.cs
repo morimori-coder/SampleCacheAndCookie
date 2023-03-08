@@ -16,7 +16,8 @@ namespace SampleCacheAndCookie.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name ,"test"),
-                new Claim(ClaimTypes.Role, "Administrator")
+                new Claim(ClaimTypes.Role, "Administrator"),
+                new Claim(ClaimTypes.SerialNumber, Guid.NewGuid().ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
