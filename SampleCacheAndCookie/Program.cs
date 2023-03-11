@@ -4,15 +4,13 @@ using SampleCacheAndCookie;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<ActiveSessionRepository>();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.EventsType = typeof(ActiveSessionCookieAuthenticationEvents);
-    });
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<ITicketStore, InMemorySessionStore>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
-builder.Services.AddScoped<ActiveSessionCookieAuthenticationEvents>();
+builder.Services.AddOptions<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme)
+    .Configure<ITicketStore>((options, store) => options.SessionStore = store);
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 

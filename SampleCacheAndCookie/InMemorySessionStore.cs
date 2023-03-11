@@ -6,7 +6,9 @@ namespace SampleCacheAndCookie
     public class InMemorySessionStore : ITicketStore
     {
         public InMemorySessionStore(IMemoryCache memoryCache) 
-        { }
+        {
+            _memoryCache = memoryCache;
+        }
         private readonly IMemoryCache _memoryCache;
 
         public async Task<string> StoreAsync(AuthenticationTicket ticket) 
